@@ -1,130 +1,8 @@
 import React from 'react';
+import SearchBar from './SearchBar'
+import ProductTable from './ProductTable'
+
 const { Map, List } = require('immutable');
-
-
-class SearchBar extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputValue: ''
-        }
-
-        this.onInputSearchTermChanged = this.onInputSearchTermChanged.bind(this);
-    }
-
-    onInputSearchTermChanged(e) {
-        // console.log(e.target.value); 
-
-        this.setState({ inputValue: e.target.value })
-
-        this.props.Search(e.target.value)
-    }
-
-    render() {
-        return (
-            <div style={{ width: 200 + 'px', margin: 'auto' }}>
-                <input type="text" name="searchTerm" id="searchTerm" value={this.state.inputValue} onChange={this.onInputSearchTermChanged} /><br />
-                <input type="checkbox" id="stockCheck" onClick={this.props.onClickStock} /> In stock items only<br />
-            </div>
-        )
-    }
-}
-
-class ProductTable extends React.Component {
-
-    render() {
-
-        let productArr = []
-
-        let inStockItems = this.props.products      //.filter((item) => {
-
-        //     return item.stocked === isStocked && isStocked || !isStocked
-
-        // })
-
-        // inStockItems.map((item, index) => {
-
-        //     productArr.push(
-        //         <ProductRow key={index + 1} stocked={item.stocked} name={item.name} price={item.price} />
-        //     )
-        // })
-
-        let id = 0
-
-        inStockItems.groupBy(item => item.category).entrySeq().forEach(([key, value]) => {
-            
-            productArr.push(
-                <ProductCategory key={id+3/2} category={key}/>
-            )
-            
-            value.toJS().forEach((item) => {
-            
-                productArr.push(
-                    <ProductRow key={id++} stocked={item.stocked} name={item.name} price={item.price} />
-                )
-            
-            })
-			
-		})
-
-
-        return (
-            <table style={{width: 200+'px', margin: 'auto'}}>
-                <thead>
-                    <tr>
-                        <td>
-                            Name
-                        </td>
-                        <td>
-                            Price
-                        </td>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {productArr}
-
-                </tbody>
-            </table>
-        )
-    }
-}
-
-
-class ProductRow extends React.Component {
-
-    render() {
-        return (
-            <tr>
-                <td style={!this.props.stocked ? { color: 'red' } : { color: '' }} >
-                    {this.props.name}
-                </td>
-                <td style={!this.props.stocked ? { color: 'red' } : { color: '' }} >
-                    {this.props.price}
-                </td>
-            </tr>
-        );
-    }
-
-}
-
-
-class ProductCategory extends React.Component {
-
-    render() {
-        return (
-            <tr>
-                <td colSpan={2} style={{fontWeight:900, textAlign: 'center'}}>
-                    {this.props.category}
-                </td>
-            </tr>
-        );
-    }
-
-}
-
 
 
 class ProductTableContainer extends React.Component {
@@ -218,5 +96,6 @@ class ProductTableContainer extends React.Component {
         )
     }
 }
+
 
 export default ProductTableContainer
