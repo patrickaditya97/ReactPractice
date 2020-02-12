@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchBar from './SearchBar'
 import ProductTable from './ProductTable'
+import AddProducts from './AddProducts'
 
 const { Map, List } = require('immutable');
 
@@ -91,7 +92,9 @@ class ProductTableContainer extends React.Component {
                 <div className="product-table">
                     <ProductTable inStock={this.state.onlyInStock} products={filteredProducts} />
                 </div>
-
+                <div>
+                    <AddProducts/>
+                </div>
             </div>
         )
     }

@@ -42,15 +42,15 @@ class ProductTable extends React.Component {
 
 
         return (
-            <table style={{width: 200+'px', margin: 'auto'}}>
+            <table responsive="true" style={{width: 200+'px', margin: 'auto', marginTop:20}}>
                 <thead>
                     <tr>
-                        <td>
+                        <th>
                             Name
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             Price
-                        </td>
+                        </th>
                     </tr>
                 </thead>
 

@@ -54,7 +54,9 @@ class Draggable extends React.Component {
         // console.log("moved ", this.deviation, this.beforeMouseDown, this.position)
 
         let element = document.getElementsByClassName('dragThis')[this.index]
-
+        element.style.backgroundColor = 'rgb(255,0,0,0.2)'
+        console.log(element.style.backgroundColor);
+        
         let deviationX = event.pageX - this.position.x
         let deviationY = event.pageY - this.position.y
 
@@ -83,6 +85,9 @@ class Draggable extends React.Component {
         window.removeEventListener('mousemove', this.elementMoved)
         window.removeEventListener('mouseup', this.elementStopped)
 
+        let element = document.getElementsByClassName('dragThis')[this.index]
+        element.style.backgroundColor = 'white'
+        
     }
 
     render() {
@@ -150,7 +155,6 @@ class DragBoard extends React.Component {
             border: '1px solid',
             backgroundColor: 'white'
         }
-
 
         return (
             <div style={divStyle} >

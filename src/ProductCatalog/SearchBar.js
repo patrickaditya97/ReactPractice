@@ -1,4 +1,6 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import {Form, Button} from 'react-bootstrap';
 
 class SearchBar extends React.Component {
 
@@ -22,7 +24,7 @@ class SearchBar extends React.Component {
     render() {
         return (
             <div style={{ width: 200 + 'px', margin: 'auto' }}>
-                <input type="text" name="searchTerm" id="searchTerm" value={this.state.inputValue} onChange={this.onInputSearchTermChanged} /><br />
+                <input className="form-control" type="text" name="searchTerm" id="searchTerm" value={this.state.inputValue} onChange={this.onInputSearchTermChanged} /><br />
                 <input type="checkbox" id="stockCheck" onClick={this.props.onClickStock} /> In stock items only<br />
             </div>
         )
