@@ -20,7 +20,10 @@ import React from 'react'
 // import ReduxForm from './ProductKartTest/Redux/components/addProduct'
 // ReactDOM.render(<Provider store={store}><ReduxForm/></Provider>, document.getElementById('root'));
 
-import store from './ProductKart/Redux/ReduxStore'
-import {Provider} from 'react-redux'
-import ProductKartContainer from './ProductKart/components/Container'
-ReactDOM.render(<Provider store={store}><ProductKartContainer/></Provider>, document.getElementById('root'));
+// import store from './ProductKart/Redux/ReduxStore'
+// import {Provider} from 'react-redux'
+// import ProductKartContainer from './ProductKart/components/Container'
+// ReactDOM.render(<Provider store={store}><ProductKartContainer/></Provider>, document.getElementById('root'));
+
+import SliderContainer from './Slider/Slidercontainer'
+ReactDOM.render(<SliderContainer />, document.getElementById('root'))
