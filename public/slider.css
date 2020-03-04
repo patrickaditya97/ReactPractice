@@ -1,37 +1,5 @@
-.Horizontal-Slider 
-{
-    -webkit-appearance: none;
-    width: 25%;
-}
-
-.Horizontal-Slider:focus{
-    outline: none;
-}
-
-.Horizontal-Slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: 1px solid #000000;
-    border-radius: 20px;
-    height: 22px;
-    width: 22px;
-    margin-top: -7px;
-    background: #816ee3;
-    cursor: pointer; 
-    /* box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; */
-} 
-
-.Horizontal-Slider::-webkit-slider-runnable-track{    
-    height: 7px;
-    background-color: #ffc511;
-    border-radius: 5px;
-    
-}
-
-.SliderContainer
-{
-    /* margin: 25px; */
+.SliderContainer{
     position: relative;
-    /* width: 100%; */
 }
 
 .slideOver{
@@ -59,4 +27,34 @@
     position: absolute;
     top: -5px;
     z-index: 10;
+}
+
+
+/** SliderPopUp CSS */
+.horizontal-sliderpopup-container .sliderpopup-value{
+    position: absolute;
+    background: #000;
+    width: 40px;
+    height: 25px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    top: -20px;
+    color : #ffc524;
+    pointer-events: none;
+}
+    
+.horizontal-sliderpopup-container .sliderpopup-value:before{
+    content: "";
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-top: 8px solid #000;
+    position: absolute;
+    width: 0px;
+    display: block;
+    bottom: -14px;
+    top: auto;
 }
