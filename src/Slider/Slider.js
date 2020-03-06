@@ -36,9 +36,9 @@ class Slider extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.value !== this.props.value){
+        if (prevProps.value !== this.props.value) {
 
-            let {value, orignalSliderValue} = { ...this.state}
+            let { value, orignalSliderValue } = { ...this.state }
             value = (this.props.value - this.props.min)
             orignalSliderValue = this.props.value
 
@@ -51,11 +51,11 @@ class Slider extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        
-        if(this.state.popUpDisplay !== nextState.popUpDisplay) return true
-        if(nextProps.value !== this.props.value) return true
-        if(this.state.value !== nextState.value) return true;
-        
+
+        if (this.state.popUpDisplay !== nextState.popUpDisplay) return true
+        if (nextProps.value !== this.props.value) return true
+        if (this.state.value !== nextState.value) return true;
+
         return false
     }
 
@@ -75,10 +75,10 @@ class Slider extends Component {
             value: changingValue,
         }, this.orignalSliderValue(changingValue))
     }
-    
+
 
     // getValue = (e) => {
-        
+
     //     let rect = this.slideUnder.current.getBoundingClientRect()
     //     let xValue = e.clientX - rect.x;
     //     let max = this.props.max
@@ -120,26 +120,26 @@ class Slider extends Component {
 
 
     orignalSliderValue = (value) => {
-        // console.log(value);
+        console.log(value);
         
         let { orignalSliderValue } = { ...this.state }
 
         // if (value !== this.props.max) {
-            orignalSliderValue = value + this.props.min
+        orignalSliderValue = value + this.props.min
         // }
         // else {
         //     orignalSliderValue = this.props.max
         // }
-
+        
         this.setState({
-            orignalSliderValue: (orignalSliderValue < 0)? -Math.abs(orignalSliderValue.toFixed(1)): Math.abs(orignalSliderValue.toFixed(1))
+            orignalSliderValue: (orignalSliderValue < 0) ? -Math.abs(orignalSliderValue.toFixed(1)) : Math.abs(orignalSliderValue.toFixed(1))
         },
-            ()=>{
+            () => {
                 this.sliderPopupValue.current.innerHTML = this.state.orignalSliderValue
             }
         )
-        if(this.props.onMouseDown){
-            this.props.onMouseDown(orignalSliderValue)
+        if (this.props.onMouseDown) {
+            this.props.onMouseDown(orignalSliderValue, this.props.type)
         }
     }
 
@@ -186,11 +186,11 @@ class Slider extends Component {
         this.setState({
             popUpDisplay: popUpDisplay
         },
-            ()=>{
+            () => {
                 this.sliderPopupValue.current.innerHTML = this.state.orignalSliderValue
             }
         )
-        
+
         e.stopPropagation()
         window.addEventListener('mousemove', this.sliderDragMove)
         window.addEventListener('mouseup', this.sliderDragEnd)
@@ -225,7 +225,7 @@ class Slider extends Component {
         else {
             realVal = this.state.value
         }
-        
+
         this.setState({
             value: realVal
         }, this.orignalSliderValue(realVal))
@@ -256,51 +256,50 @@ class Slider extends Component {
 
         let slideOverWidthValue = (this.state.value / (this.props.max - this.props.min)) * this.props.width
         let slideOverWidth = (slideOverWidthValue < this.props.width) ? slideOverWidthValue : this.props.width
-        console.log(slideOverWidth, this.state.value, Math.abs(this.props.width/2 - slideOverWidth))
 
         // let slideOverLeftWidth = (this.props.width/2) - slideOverWidth
         // (slideOverWidth < (this.props.width / 2))? (slideOverWidth % (this.props.width / 2)) + 'px' : 0 + 'px'
 
         let slider = [];
 
-        (!this.props.doubleSide)? slider.push(
+        (!this.props.doubleSide) ? slider.push(
 
             <div key='1' className="SliderContainer" style={{ width: this.props.width + 'px' }} ref={this.sliderContainer} onMouseDown={(e) => this.sliderDragStart(e)} step={this.props.step} value={this.state.orignalSliderValue} >
-                
-                <span className="horizontal-sliderpopup-container" style={{ userSelect: 'none', position: "absolute", top: -30, left: (slideOverWidth-200/10) + 'px', display: this.state.popUpDisplay }}>
+
+                <span className="horizontal-sliderpopup-container" style={{ userSelect: 'none', position: "absolute", top: -30, left: (slideOverWidth - 200 / 10) + 'px', display: this.state.popUpDisplay }}>
                     <p className="sliderpopup-value" ref={this.sliderPopupValue}></p>
                 </span>
-                
+
                 <div className="slideOver" ref={this.slideOver} id="slideOver" style={{ userSelect: 'none', width: slideOverWidth + 'px', backgroundColor: this.props.slideOverColor }} ></div>
-                
+
                 <div className="slideUnder" ref={this.slideUnder} id="slideUnder" style={{ userSelect: 'none', backgroundColor: this.props.slideUnderColor }}></div>
-                
+
                 <span className="sliderHandle" ref={this.sliderHandle} id="sliderHandle" style={{ userSelect: 'none', left: (slideOverWidth - 10) + 'px', backgroundColor: this.props.thumbColor }} onMouseDown={(e) => this.handleDragStart(e)}></span>
-            
-            </div>
 
-        ) 
-        : slider.push(
-
-            <div key='2' className="divContainer" ref={this.slideUnder} id="slideUnder" onMouseDown={(e) => this.sliderDragStart(e)} step={this.props.step} value={this.state.orignalSliderValue} style={{width:this.props.width + 'px', userSelect: 'none', backgroundColor: this.props.slideUnderColor}}>
-                
-                <span className="horizontal-sliderpopup-container" style={{ userSelect: 'none', position: "absolute", top: -30, left: (slideOverWidth-200/10) + 'px', display: this.state.popUpDisplay }}>
-                    <p className="sliderpopup-value" ref={this.sliderPopupValue}></p>
-                </span>
-                
-                <div className="left">
-                    <div className="leftSlideOver"  style={{ userSelect: 'none', width: ((slideOverWidth < (this.props.width / 2))? (this.props.width/2) - slideOverWidth: 0) + 'px', backgroundColor: this.props.slideOverColor }} ></div>
-                </div>
-                
-                <div className="right">
-                    <div className="rightSlideOver" style={{ userSelect: 'none', width: ((slideOverWidth > (this.props.width / 2))? Math.abs(this.props.width/2 - slideOverWidth): 0) + 'px', backgroundColor: this.props.slideOverColor }}></div>
-                </div>
-                
-                <div className="thumb" ref={this.sliderHandle} id="sliderHandle" style={{ userSelect: 'none', left: (slideOverWidth - 10) + 'px', backgroundColor: this.props.thumbColor }} onMouseDown={(e) => this.handleDragStart(e)}></div>
-            
             </div>
 
         )
+            : slider.push(
+
+                <div key='2' className="divContainer" ref={this.slideUnder} id="slideUnder" onMouseDown={(e) => this.sliderDragStart(e)} step={this.props.step} value={this.state.orignalSliderValue} style={{ width: this.props.width + 'px', userSelect: 'none', backgroundImage: `linear-gradient(to left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%)` }}>
+
+                    <span className="horizontal-sliderpopup-container" style={{ userSelect: 'none', position: "absolute", top: -30, left: (slideOverWidth - 200 / 10) + 'px', display: this.state.popUpDisplay }}>
+                        <p className="sliderpopup-value" ref={this.sliderPopupValue}></p>
+                    </span>
+
+                    <div className="left">
+                        <div className="leftSlideOver" style={{ userSelect: 'none', width: ((slideOverWidth < (this.props.width / 2)) ? (this.props.width / 2) - slideOverWidth : 0) + 'px', backgroundColor: this.props.slideOverColor }} ></div>
+                    </div>
+
+                    <div className="right">
+                        <div className="rightSlideOver" style={{ userSelect: 'none', width: ((slideOverWidth > (this.props.width / 2)) ? Math.abs(this.props.width / 2 - slideOverWidth) : 0) + 'px', backgroundColor: this.props.slideOverColor }}></div>
+                    </div>
+
+                    <div className="thumb" ref={this.sliderHandle} id="sliderHandle" style={{ userSelect: 'none', left: (slideOverWidth - 10) + 'px', backgroundColor: this.props.thumbColor }} onMouseDown={(e) => this.handleDragStart(e)}></div>
+
+                </div>
+
+            )
 
 
         return (
