@@ -1,0 +1,351 @@
+/*
+---------------------------------------
+TRANSFORM MANAGER START
+---------------------------------------
+*/
+
+
+.selectionBox, .cropBox, .cropSelectionBox{position: absolute;}
+
+.inner-box, .crop-inner-box{position: absolute;position: absolute;left: -3px;right: -3px;top: -3px;bottom: -3px;}
+.inner-box, .crop-inner-box{cursor: move}
+.selectionBox{outline:  3px solid #fff;box-shadow: inset 0 0 6px rgba(0,0,0,0.5), 0 0 6px rgba(0,0,0,0.5);opacity:1;transition:opacity 0.15s linear;}
+.selectionBox.invisible {opacity:0}
+.selectionBox.keyframe{border:  3px solid rgb(235, 177, 17);}
+.selectionBox.text-only, .unCroppedBox{outline:  3px solid #fff;border: none;cursor: move;box-shadow: inset 0 0 6px rgba(0,0,0,0.5), 0 0 6px rgba(0,0,0,0.5);}
+.selectionBox.keyframe.text-only{outline:  3px solid rgb(235, 177, 17);border: none}
+
+.crop-handle.left{top:calc(50% - 7px);left:-3px; cursor: ew-resize}
+.crop-handle.top-left{top:-3px;left:-3px; cursor: nwse-resize}
+.crop-handle.top{top:-3px;left:calc(50% - 7px); cursor: ns-resize}
+.crop-handle.top-right{top:-3px;right:-3px; cursor: nesw-resize;transform: scaleX(-1)}
+.crop-handle.right{top:calc(50% - 7px);right: -3px; cursor: ew-resize}
+.crop-handle.bottom-right{bottom:-3px;right:-3px; cursor: nwse-resize;transform: scaleX(-1) scaleY(-1)}
+.crop-handle.bottom{left:calc(50% - 7px);bottom:-3px; cursor: ns-resize}
+.crop-handle.bottom-left{bottom:-3px;left:-3px; cursor: nesw-resize;transform: scaleY(-1)}
+
+.resize-handle{position: absolute;border-radius: 100%;padding: 6px;background: #fff;box-shadow:  0 0 10px rgba(0,0,0,0.5);z-index: 1;}
+.crop-handle{position: absolute;display:flex;pointer-events: auto}
+
+.resize-handle.top, .resize-handle.bottom{padding: 3px 18px; border-radius: 18px}
+.resize-handle.left, .resize-handle.right{padding: 18px 3px; border-radius: 18px}
+
+.rotate-handle{position: absolute;padding: 2px;opacity: 0;border: 3px solid #000;}
+.resize-handle.disabled{border: none;padding: 0;background: none;pointer-events: none}
+
+/*       Handle css  */
+.resize-handle.top-left{top:-7.5px;left: -7.5px;cursor: nwse-resize}
+.resize-handle.top-right{top:-7.5px;right: -7.5px;cursor: nesw-resize}
+.resize-handle.bottom-right{bottom:-7.5px;right: -7.5px;cursor: nwse-resize}
+.resize-handle.bottom-left{bottom:-7.5px;left: -7.5px;cursor: nesw-resize}
+.resize-handle.top{left:calc(50% - 18px);top: -4.5px;cursor: ns-resize}
+.resize-handle.right{top:calc(50% - 18px);right: -4.5px;cursor: ew-resize}
+.resize-handle.bottom{left:calc(50% - 18px);bottom: -4.5px;cursor:ns-resize}
+.resize-handle.left{top:calc(50% - 18px);left: -4.5px;cursor: ew-resize}
+
+.selectionBox.se .resize-handle.top-left{cursor: ns-resize}
+.selectionBox.se .resize-handle.top{cursor: nesw-resize}
+.selectionBox.se .resize-handle.top-right{cursor: ew-resize}
+.selectionBox.se .resize-handle.right{cursor: nwse-resize}
+.selectionBox.se .resize-handle.bottom-right{cursor: ns-resize}
+.selectionBox.se .resize-handle.bottom{cursor:nesw-resize}
+.selectionBox.se .resize-handle.bottom-left{cursor: ew-resize}
+.selectionBox.se .resize-handle.left{cursor: nwse-resize}
+
+.selectionBox.s .resize-handle.top-left{cursor: nesw-resize}
+.selectionBox.s .resize-handle.top{cursor: ew-resize}
+.selectionBox.s .resize-handle.top-right{cursor: nwse-resize}
+.selectionBox.s .resize-handle.right{cursor: ns-resize}
+.selectionBox.s .resize-handle.bottom-right{cursor: nesw-resize}
+.selectionBox.s .resize-handle.bottom{cursor:ew-resize}
+.selectionBox.s .resize-handle.bottom-left{cursor: nwse-resize}
+.selectionBox.s .resize-handle.left{cursor: ns-resize}
+
+.selectionBox.sw .resize-handle.top-left{cursor: ew-resize}
+.selectionBox.sw .resize-handle.top{cursor: nwse-resize}
+.selectionBox.sw .resize-handle.top-right{cursor: ns-resize}
+.selectionBox.sw .resize-handle.right{cursor: nesw-resize}
+.selectionBox.sw .resize-handle.bottom-right{cursor: ew-resize}
+.selectionBox.sw .resize-handle.bottom{cursor:nwse-resize}
+.selectionBox.sw .resize-handle.bottom-left{cursor: ns-resize}
+.selectionBox.sw .resize-handle.left{cursor: nesw-resize}
+
+.selectionBox.w .resize-handle.top-left{cursor: nwse-resize}
+.selectionBox.w .resize-handle.top{cursor: ns-resize}
+.selectionBox.w .resize-handle.top-right{cursor: nesw-resize}
+.selectionBox.w .resize-handle.right{cursor: ew-resize}
+.selectionBox.w .resize-handle.bottom-right{cursor: nwse-resize}
+.selectionBox.w .resize-handle.bottom{cursor:ns-resize}
+.selectionBox.w .resize-handle.bottom-left{cursor: nesw-resize}
+.selectionBox.w .resize-handle.left{cursor: ew-resize}
+
+.selectionBox.nw .resize-handle.top-left{cursor: ns-resize}
+.selectionBox.nw .resize-handle.top{cursor: nesw-resize}
+.selectionBox.nw .resize-handle.top-right{cursor: ew-resize}
+.selectionBox.nw .resize-handle.right{cursor: nwse-resize}
+.selectionBox.nw .resize-handle.bottom-right{cursor: ns-resize}
+.selectionBox.nw .resize-handle.bottom{cursor:nesw-resize}
+.selectionBox.nw .resize-handle.bottom-left{cursor: ew-resize}
+.selectionBox.nw .resize-handle.left{cursor: nwse-resize}
+
+.selectionBox.n .resize-handle.top-left{cursor: nesw-resize}
+.selectionBox.n .resize-handle.top{cursor: ew-resize}
+.selectionBox.n .resize-handle.top-right{cursor: nwse-resize}
+.selectionBox.n .resize-handle.right{cursor: ns-resize}
+.selectionBox.n .resize-handle.bottom-right{cursor: nesw-resize}
+.selectionBox.n .resize-handle.bottom{cursor:ew-resize}
+.selectionBox.n .resize-handle.bottom-left{cursor: nwse-resize}
+.selectionBox.n .resize-handle.left{cursor: ns-resize}
+
+.selectionBox.ne .resize-handle.top-left{cursor: ew-resize}
+.selectionBox.ne .resize-handle.top{cursor: nwse-resize}
+.selectionBox.ne .resize-handle.top-right{cursor: ns-resize}
+.selectionBox.ne .resize-handle.right{cursor: nesw-resize}
+.selectionBox.ne .resize-handle.bottom-right{cursor: ew-resize}
+.selectionBox.ne .resize-handle.bottom{cursor:nwse-resize}
+.selectionBox.ne .resize-handle.bottom-left{cursor: ns-resize}
+.selectionBox.ne .resize-handle.left{cursor: nesw-resize}
+
+
+.rotate-handle.top-right{top:-14px;right: -14px;}
+.rotate-handle.bottom-right{bottom:-14px;right: -14px;}
+.rotate-handle.bottom-left{bottom:-14px;left:  -14px;}
+.rotate-handle.top-left{top:-14px;left: -14px;}
+.rotate-handle.right{top:49%;right: -14px;}
+
+.rotate-handle.bottom{    
+    display: block;
+    height: 20px;
+    width: 20px;
+    background: #fff;
+    border-radius: 100%;
+    left: calc(50% - 10px);
+    bottom: -40px;
+    background-image: url(/images/transform-icons/rotate.svg);
+    opacity: 1;
+    border: none;
+}
+.rotate-handle.bottom:hover, .rotate-handle.bottom.active{
+    background-image: url(/images/transform-icons/rotate-active.svg);
+}   
+.resize-handle:hover, .resize-handle.active{border : 1.5px solid #fff; background-color: #ffc524}
+.resize-handle.top-left:hover, .resize-handle.top-left.active{top:-9px;left: -9px;}
+.resize-handle.top:hover, .resize-handle.top.active{left:calc(50% - 20px);top: -6px;}
+.resize-handle.left:hover, .resize-handle.left.active{top:calc(50% - 20px);left: -6px;}
+.resize-handle.top-right:hover, .resize-handle.top-right.active{top:-9px;right: -9px;}
+.resize-handle.right:hover, .resize-handle.right.active{top:calc(50% - 20px);right: -6px;}
+.resize-handle.bottom-right:hover, .resize-handle.bottom-right.active{bottom:-9px;right: -9px;}
+.resize-handle.bottom-left:hover, .resize-handle.bottom-left.active{bottom:-9px;left: -9px;}
+.resize-handle.bottom:hover, .resize-handle.bottom.active{left:calc(50% - 20px);bottom: -6px;}
+
+
+.control-point{position: absolute;width :15px;height : 15px; z-index: 2;}
+.selectionBox, .cropBox, .cropSelectionBox{position: absolute;}
+.pointer-events-none{pointer-events: none;}
+.pointer-events-auto{pointer-events: auto;}
+
+
+.item-tool-bar{position: absolute; border-radius: 5px; z-index: 17;background-color: rgba(0,0,0,0.6);pointer-events: none;transition: all 500ms ease-in-out 0s;}
+.item-tool-bar.vertical{background-color: rgba(0,0,0,0.6);}
+.item-tool-bar .item-tool-container{padding: 8px; display: inline-block;padding-bottom: 0;}
+.item-tool-bar.vertical.two ul {width : 76px;}
+.item-tool-bar.vertical.one ul {width : 40px;}
+.item-tool-bar.vertical ul li {display:block;padding: 0;margin: 0;float: left; pointer-events: auto}
+.item-tool-bar.vertical ul li img{display:block;margin:8px;cursor: pointer}
+
+.item-tool-bar.horizontal ul{width : auto;}
+.item-tool-bar.horizontal ul li {display:block;padding: 0;margin: 0;float: left;background: #392852;border-radius: 5px;margin-right: 4px; pointer-events: auto;}
+.item-tool-bar.horizontal ul li img{display:block;margin:8px;cursor: pointer}
+.item-tool-bar.horizontal ul li span{display:block;margin:8px;cursor: pointer;color: #fff; font-size: 24px}
+
+
+/* .selectionBox.tool-crop .resize-handle{
+    border: 1.5px solid #fff;
+    background-color: #ffc524;
+} */
+.p-b-0{padding-bottom: 0}
+.item-tool-bar ul li.item-tool{width: 24px;height: 24px;margin: 7px;cursor: pointer}
+.item-tool-bar .item-tool-toggle{    
+    padding: 3px 0;
+    background: #000000;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.item-tool-bar .item-tool-toggle img{
+    width: 10px;
+    height: 10px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    transition : all 0.3s ease;
+    pointer-events: auto;
+}
+.item-tool.action{background-image: url(/images/item-tools/action.svg)}
+.item-tool.action:hover, .item-tool.action.active{background-image: url(/images/item-tools/action-active.svg)}
+
+.item-tool.action-switch{background-image: url(/images/item-tools/action-switch.svg)}
+.item-tool.action-switch:hover, .item-tool.action-switch.active{background-image: url(/images/item-tools/action-switch-active.svg)}
+
+.item-tool.color{background-image: url(/images/item-tools/color.svg)}
+.item-tool.color:hover, .item-tool.color.active{background-image: url(/images/item-tools/color-active.svg)}
+
+.item-tool.delete{background-image: url(/images/item-tools/delete.svg)}
+.item-tool.delete:hover, .item-tool.delete.active{background-image: url(/images/item-tools/delete-active.svg)}
+
+.item-tool.flip{background-image: url(/images/item-tools/flip.svg)}
+.item-tool.flip:hover, .item-tool.flip.active{background-image: url(/images/item-tools/flip-active.svg)}
+
+.item-tool.flip-{background-image: url(/images/item-tools/flip-0.svg)}
+.item-tool.flip-:hover, .item-tool.flip-.active{background-image: url(/images/item-tools/flip-0-active.svg)}
+
+.item-tool.flip-0{background-image: url(/images/item-tools/flip-0.svg)}
+.item-tool.flip-0:hover, .item-tool.flip-0.active{background-image: url(/images/item-tools/flip-0-active.svg)}
+
+.item-tool.flip-1{background-image: url(/images/item-tools/flip-1.svg)}
+.item-tool.flip-1:hover, .item-tool.flip-1.active{background-image: url(/images/item-tools/flip-1-active.svg)}
+
+.item-tool.flip-2{background-image: url(/images/item-tools/flip-2.svg)}
+.item-tool.flip-2:hover, .item-tool.flip-2.active{background-image: url(/images/item-tools/flip-2-active.svg)}
+
+.item-tool.flip-3{background-image: url(/images/item-tools/flip-3.svg)}
+.item-tool.flip-3:hover, .item-tool.flip-4.active{background-image: url(/images/item-tools/flip-4-active.svg)}
+
+.item-tool.lipsync{background-image: url(/images/item-tools/lipsync.svg)}
+.item-tool.lipsync:hover, .item-tool.lipsync.active{background-image: url(/images/item-tools/lipsync-active.svg)}
+
+.item-tool.multimove{background-image: url(/images/item-tools/multimove.svg)}
+.item-tool.multimove:hover, .item-tool.multimove.active{background-image: url(/images/item-tools/multimove-active.svg)}
+
+.item-tool.filter{background-image: url(/images/item-tools/filter.svg)}
+.item-tool.filter:hover, .item-tool.filter.active{background-image: url(/images/item-tools/filter-active.svg)}
+
+.item-tool.swap{background-image: url(/images/item-tools/swap.svg)}
+.item-tool.swap:hover, .item-tool.swap.active{background-image: url(/images/item-tools/swap-active.svg)}
+.item-tool.swap-active{background-image: url(/images/item-tools/swap-active.svg)}
+
+.item-tool.settings{background-image: url(/images/item-tools/settings.svg)}
+.item-tool.settings-active{background-image: url(/images/item-tools/settings-active.svg)}
+.item-tool.settings:hover, .item-tool.settings.active{background-image: url(/images/item-tools/settings-active.svg)}
+
+.item-tool.edit-text{background-image: url(/images/item-tools/edit-text.svg)}
+.item-tool.edit-text-active{background-image: url(/images/item-tools/edit-text-active.svg)}
+.item-tool.edit-text:hover, .item-tool.edit-text.active{background-image: url(/images/item-tools/edit-text-active.svg)}
+
+.item-tool.group{background-image: url(/images/item-tools/group.svg)}
+.item-tool.group:hover, .item-tool.group.active{background-image: url(/images/item-tools/group-active.svg)}
+
+.item-tool.ungroup{background-image: url(/images/item-tools/ungroup.svg)}
+
+.item-tool.bg-crop{background-image: url(/images/item-tools/move.svg)}
+.item-tool.bg-crop:hover, .item-tool.bg-crop.active{background-image: url(/images/item-tools/move-active.svg)}
+
+.item-tool.bg-rotate{background-image: url(/images/item-tools/bg-rotate.svg)}
+.item-tool.bg-rotate:hover, .item-tool.bg-rotate.active{background-image: url(/images/item-tools/bg-rotate-active.svg)}
+
+.item-tool.edit-video{background-image: url(/images/item-tools/cut.svg)}
+.item-tool.edit-video:hover, .item-tool.edit-video.active{background-image: url(/images/item-tools/cut-active.svg)}
+
+.item-tool.enable-multimove{background-image: url(/images/item-tools/enable-multimove.svg)}
+.item-tool.enable-multimove:hover{background-image: url(/images/item-tools/enable-multimove-hover.svg)}
+
+.item-tool.enable-switch{background-image: url(/images/item-tools/enable-switch.svg)}
+.item-tool.enable-switch:hover{background-image: url(/images/item-tools/enable-switch-hover.svg)}
+
+.item-tool.reset-multimove{background-image: url(/images/item-tools/reset-multimove.svg)}
+.item-tool.reset-multimove:hover{background-image: url(/images/item-tools/reset-multimove-hover.svg)}
+
+.item-tool.reset-switch{background-image: url(/images/item-tools/reset-switch.svg)}
+.item-tool.reset-switch:hover{background-image: url(/images/item-tools/reset-switch-hover.svg)}
+
+.item-tool.cam-delete{background-image: url(/images/item-tools/cam-delete.svg)}
+.item-tool.cam-delete:hover{background-image: url(/images/item-tools/cam-delete-hover.svg)}
+
+.item-tool.cam-scam{background-image: url(/images/item-tools/cam-scam.svg)}
+.item-tool.cam-scam:hover{background-image: url(/images/item-tools/cam-scam-hover.svg)}
+
+.item-tool.cam-mcam{background-image: url(/images/item-tools/cam-mcam.svg)}
+.item-tool.cam-mcam:hover{background-image: url(/images/item-tools/cam-mcam-hover.svg)}
+
+.item-tool.cam-resize{background-image: url(/images/item-tools/cam-resize.svg)}
+.item-tool.cam-resize:hover{background-image: url(/images/item-tools/cam-resize-hover.svg)}
+
+.item-tool.crop{background-image: url(/images/item-tools/crop.svg)}
+.item-tool.crop:hover{background-image: url(/images/item-tools/crop-active.svg)}
+
+.item-tool.set-bg{background-image: url(/images/item-tools/set-bg.svg)}
+.item-tool.set-bg:hover{background-image: url(/images/item-tools/set-bg-hover.svg)}
+
+.item-tool.remove-bg{background-image: url(/images/item-tools/remove-bg.svg)}
+.item-tool.remove-bg:hover{background-image: url(/images/item-tools/remove-bg-hover.svg)}
+
+/* .item-tool.ungroup:hover, .item-tool.ungroup.active{background-image: url(/images/item-tools/ungroup-active.svg)} */
+
+
+.item_tools_tooltip{
+    position: absolute;
+    z-index: 99;
+    font-size: 11px;
+    padding: 5px 6px;
+    color: #cacaca;
+    border-radius: 3px;
+    font-family: 'PT Sans', sans-serif;
+    background: #4d4d4d;
+    height: auto;
+    width: -moz-max-content;    /* Firefox/Gecko */
+    width: -webkit-max-content;
+    width: intrinsic;          
+    animation: timeDelayTooltip 1000ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both !important;
+}
+
+.slide_tool_tips, .slide_bottom_addscene_tool_tip, .slide_bottom_trans_tooltip{
+    position: fixed;
+}
+
+.text_tool_tips, .add_scenelite_tool_tip, .delete_scenelite_tool_tip{
+    position: fixed;
+}
+
+.cropSelectionBox img, .cropSelectionBox video{
+    width:100%;
+    height:100%;
+    position: absolute;
+}
+
+.unCroppedBox img, .unCroppedBox svg, .unCroppedBox video{
+    opacity: 0.5;
+}
+
+.cropBox{
+    overflow: hidden
+}
+
+.crop-handles{
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    border: 1px solid rgba(255, 197, 36, 0.75);
+}
+
+.crop-imgHolder{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+/* .item-tool-bar ul.vertical-view li:nth-child(odd){margin-right: 3px}
+.item-tool-bar ul.vertical-view li:nth-child(even){margin-left: 3px} */
+
+
+/*
+---------------------------------------
+TRANSFORM MANAGER END
+---------------------------------------
+*/
+
+
+.multimove-controls .confirmation{float:right;background: #434156;padding: 5px;border-radius: 52px;color: rgb(255, 255, 255);pointer-events: auto;}
+.multimove-controls .confirmation .confirmation-icon{width:42px;height:42px;display:inline-block;vertical-align:middle;cursor:pointer;background-image:url(/images/multimove-icons/multimove-cancel.svg);}
+.multimove-controls .confirmation .confirmation-icon:hover{background-image:url(/images/multimove-icons/multimove-cancel-hover.svg);}
+.multimove-controls .confirmation .confirmation-text{padding: 8px 40px;font-size: 15px;background: #83bf11;border-radius: 52px;cursor: pointer;margin-left: 8px;margin-right: 4px;vertical-align: middle;display:inline-block}

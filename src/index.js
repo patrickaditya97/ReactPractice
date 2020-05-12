@@ -25,5 +25,20 @@ import React from 'react'
 // import ProductKartContainer from './ProductKart/components/Container'
 // ReactDOM.render(<Provider store={store}><ProductKartContainer/></Provider>, document.getElementById('root'));
 
-import SliderContainer from './Slider/Slidercontainer'
-ReactDOM.render(<SliderContainer />, document.getElementById('root'))
+// import SliderContainer from './Slider/Slidercontainer'
+// ReactDOM.render(<SliderContainer />, document.getElementById('root'))
+
+// import TodoList from "./Mobx/todoList";
+// import store from "./Mobx/todoStore";
+// ReactDOM.render(<TodoList store={store}/>, document.getElementById('root'))
+
+// import PutThisOnScreen from "./Test";
+// ReactDOM.render(<PutThisOnScreen/>, document.getElementById('root'))
+
+// import Frames from "./Frames/Frames"
+// ReactDOM.render(<Frames/>, document.getElementById('root'))
+
+import {Provider} from 'react-redux'
+import store from "./Work/TransformManager/redux/store"
+import Workspace from "./Work/TransformManager/containers/Workspace";
+ReactDOM.render(<Provider store={store}><Workspace style={{ width: 800, height: 500 }} /></Provider>, document.getElementById('root'));

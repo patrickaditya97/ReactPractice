@@ -26,9 +26,24 @@ class Slider extends Component {
     }
 
     componentDidMount() {
+        let adjusted
+        let value = this.props.value
+        let min = this.props.min
+        let max = this.props.max
 
+        if (value !== undefined ) { 
+            if (value > max) {
+                adjusted = max
+            }
+            else if (value < min) {
+                adjusted = min
+            }
+        }
+
+        console.log(adjusted);
+        
         this.setState({
-            initailValueFromBackEnd: this.props.value
+            initailValueFromBackEnd: adjusted
         }, () => {
             this.changeRange()
         })
@@ -120,7 +135,6 @@ class Slider extends Component {
 
 
     orignalSliderValue = (value) => {
-        console.log(value);
         
         let { orignalSliderValue } = { ...this.state }
 

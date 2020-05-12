@@ -7,15 +7,24 @@ class Draggable extends React.Component {
         this.state = {
             data: Map({
                 items: List([{
+                    type: "Shape",
                     width: 80,
                     height: 80,
                     x: 0,
                     y: 0
                 }, {
+                    type: "Shape",
                     width: 100,
                     height: 100,
                     x: 80,
                     y: 80
+                }, {
+                    type: "Image",
+                    src: "https://picsum.photos/200/300",
+                    width: 80,
+                    height: 80,
+                    x: 0,
+                    y: 0
                 }])
             })
         };
@@ -43,7 +52,7 @@ class Draggable extends React.Component {
         this.beforeMouseDown.x = items.getIn(['items', index, 'x'])
         this.beforeMouseDown.y = items.getIn(['items', index, 'y'])
 
-        // console.log('clicked', this.beforeMouseDown, this.position)
+        console.log('clicked', this.beforeMouseDown, this.position)
 
         window.addEventListener('mousemove', this.elementMoved)
         window.addEventListener('mouseup', this.elementStopped)
@@ -55,7 +64,6 @@ class Draggable extends React.Component {
 
         let element = document.getElementsByClassName('dragThis')[this.index]
         element.style.backgroundColor = 'rgb(255,0,0,0.2)'
-        console.log(element.style.backgroundColor);
         
         let deviationX = event.pageX - this.position.x
         let deviationY = event.pageY - this.position.y
@@ -95,16 +103,23 @@ class Draggable extends React.Component {
         const items = this.state.data;
         let itemArray = []
 
-        items.get('items').map((styleInState, index) => {
+        items.get('items').forEach((styleInState, index) => {
 
             const style = {
                 width: styleInState.width + 'px',
                 height: styleInState.height + 'px',
                 border: '1px solid',
-                transform: `translate(${styleInState.x}px, ${styleInState.y}px)`
+                transform: `translate(${styleInState.x}px, ${styleInState.y}px)`,
+                userSelect: 'none',
             }
 
-            itemArray.push(<div className="dragThis" onMouseDown={(e) => this.elementClicked(e, index)} key={index + 1} style={style}></div>)
+            let draggableItem = (styleInState.type === 'Image')
+                ?<div className="dragThis" onMouseDown={(e) => this.elementClicked(e, index)} key={index + 1} style={style}><img src={styleInState.src} width={styleInState.width} height={styleInState.height} style={{pointerEvents: 'none'}}/></div>
+
+                :<div className="dragThis" onMouseDown={(e) => this.elementClicked(e, index)} key={index + 1} style={style}>
+                </div>
+
+            itemArray.push(draggableItem)
 
         })
 

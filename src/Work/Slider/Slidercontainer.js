@@ -12,7 +12,7 @@ class SliderContainer extends Component {
         return (
             <div style={{ margin: 100 + 'px'}}>
 
-                <Slider min={5} max={100} step={5} value={5} width={300} slideUnderColor="#eff2f4" slideOverColor="#ffc524" thumbColor="#8e72e4"/>
+                <Slider min={-100} max={100} step={1} value={-1100} width={300} slideUnderColor="#eff2f4" slideOverColor="#ffc524" thumbColor="#8e72e4"/>
                 
             </div>
         );
