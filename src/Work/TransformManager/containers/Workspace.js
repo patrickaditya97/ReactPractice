@@ -8,7 +8,11 @@ const mapStateToProps = (state) => ({
     selectedChildren : state.getIn(['selectedChildren']),
     isCropping       : state.get('isCropping'),
     isFraming        : state.get('isFraming'),
-    isBgCropping     : state.get('isBgCropping'),  
+    isBgCropping     : state.get('isBgCropping'),
+    workspaceBounds : state.get('workspaceBounds'),
+    workspaceWidth  : state.get('workspaceWidth'),
+    workspaceHeight : state.get('workspaceHeight'),
+    zoomFactor : 1
 })
 
 const mapDispatchToProps = (dispatch)=> ({

@@ -58,15 +58,16 @@ class WorkspaceComponent extends Component{
     render() {
 
         const items = this.props.workspaceItems;
-        let itemArray = []
+        let itemArray = [];
+        let workspaceX = this.props.workspaceBounds.get("cx") - (this.props.workspaceWidth * this.props.zoomFactor) / 2,   
+            workspaceY = this.props.workspaceBounds.get("cy") - (this.props.workspaceHeight * this.props.zoomFactor) / 2;
         const divStyle = {
-            position: 'relative',
-            top: `${this.state.y}px`,
-            left: `${this.state.x}px`,
+            position: 'absolute',
+            top: `${workspaceY}px`,
+            left: `${workspaceX}px`,
             width: this.state.width + 'px',
             height: this.state.height + 'px',
-            border: '1px solid',
-            backgroundColor: 'white'
+            backgroundColor: 'beige'
         }
         
 

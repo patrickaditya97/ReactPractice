@@ -104,11 +104,11 @@ class FramesComponent extends Component{
         this.frameItem = this.props.workspaceItems.get(this.props.src)
         // console.log(this.frameItem.toJS());
         
-        let imageWidth  = this.frameItem.getIn(['imgDetails', 'width']) * this.frameItem.getIn(['original', 'width'])
-        let imageHeight = this.frameItem.getIn(['imgDetails', 'height']) * this.frameItem.getIn(['original', 'height'])
+        let imageWidth  = this.frameItem.get("width") * this.frameItem.getIn(['original', 'width'])
+        let imageHeight = this.frameItem.get("height") * this.frameItem.getIn(['original', 'height'])
         
-        let imageX = this.frameItem.getIn(['imgDetails', 'width']) * this.frameItem.getIn(['original', 'x'])
-        let imageY = this.frameItem.getIn(['imgDetails', 'height']) * this.frameItem.getIn(['original', 'y'])
+        let imageX = this.frameItem.get("width") * this.frameItem.getIn(['original', 'x'])
+        let imageY = this.frameItem.get("height") * this.frameItem.getIn(['original', 'y'])
         
         return (
             <div className={this.props.src + 1} style={{ width: `${this.frameItem.get('width')}px`, height: `${this.frameItem.get('height')}px`, transform: `scale(1)` }}>

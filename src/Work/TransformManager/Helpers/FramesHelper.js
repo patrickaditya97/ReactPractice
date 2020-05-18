@@ -12,7 +12,7 @@ export function calculateAspectRatio(Frame){
     let imageAspectRatio = imageWidth / imageHeight
     let frameAspectRatio = clipWidth / clipHeight
     
-    let width, height, imageX, imageY, X, Y, type
+    let width, height, imageX, imageY, X = selectedItem.getIn(['frameDetails', 'clipX']), Y = selectedItem.getIn(['frameDetails', 'clipY']), type
 
     imageX = selectedItem.get('width') / 2 - clipWidth / 2
     imageY = selectedItem.get('height') / 2 - clipHeight / 2
@@ -22,8 +22,7 @@ export function calculateAspectRatio(Frame){
         width = clipWidth
         height = (clipWidth * (imageHeight / imageWidth))
 
-        X = imageX
-        Y = (frameHeight / 2 - height / 2)
+        Y = (Y + clipHeight / 2) - height / 2
 
         type = 1
 
@@ -32,8 +31,7 @@ export function calculateAspectRatio(Frame){
         width = clipHeight * (imageWidth / imageHeight)
         height = clipHeight
 
-        X = (frameWidth / 2 - width / 2)
-        Y = imageY
+        X = (X + clipWidth / 2) - width / 2
 
         type = 2
 
@@ -42,17 +40,17 @@ export function calculateAspectRatio(Frame){
         width = clipWidth
         height = clipHeight
 
-        X = (frameWidth / 2 - width / 2)
-        Y = frameHeight / 2 - height / 2
+        X = (X + clipWidth / 2) - width / 2
+        Y = (Y + clipHeight / 2) - height / 2
 
         type = 0
 
     }
 
-    width = width / imageWidth
-    height = height / imageHeight
-    X = X / imageWidth
-    Y = Y / imageHeight
+    width = width / frameWidth
+    height = height / frameHeight
+    X = X / frameWidth
+    Y = Y / frameHeight
 
     return { width, height, X, Y, type }
 }

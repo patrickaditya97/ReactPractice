@@ -12,7 +12,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+    toggleCrop: (data) => {
+        dispatch({type : "TOGGLE_FRAME"})
+    },
     cropImage: (data, socket) => {
         dispatch(cropImage(data, socket))
     },

@@ -59,13 +59,15 @@ const initialState = fromJS({
             frameDetails: {
                 clipWidth: 537.59,
                 clipHeight: 302,
+                clipX : 25,
+                clipY : 27
             },
             imgDetails: {
                 id: "default",
-                xRatio: 0.042,
-                yRatio: 0.105,
-                widthRatio: 0.914,
-                heightRatio: 0.85,
+                xRatio: 0.042517006802721,
+                yRatio: 0.075823527759836,
+                widthRatio: 0.914268707482993,
+                heightRatio: 0.848100199387795,
                 width: 1800,
                 height: 2400,
                 src: "/images/TestImages/vertical.webp",
@@ -146,7 +148,9 @@ export default function rootReducer(state = initialState, action) {
                 state = selectedItem.delete("original");
             } else {
                 
-                selectedItem = selectedItem.merge(fromJS(action.data.crop));
+                // selectedItem = selectedItem.merge(fromJS(action.data.crop));
+                console.log(action.data.original);
+                
                 selectedItem = selectedItem.setIn(["original"], fromJS(action.data.original));
                 if (selectedItem.getIn(["imgDetails", 'id']) !== "modified") {
                     selectedItem = selectedItem.setIn(["imgDetails", 'id'], action.data.imgDetails.id);

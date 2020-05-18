@@ -72,21 +72,20 @@ class FrameImageComponent extends Component{
 	
 		let frameX = (this.cropItem.get('width') * this.cropItem.getIn(['imgDetails', 'xRatio']))
 		let frameY = (this.cropItem.get('height') * this.cropItem.getIn(['imgDetails', 'yRatio']))
-		console.log(this.cropItem.getIn(["original", "x"]), this.cropItem.get("width"), this.cropItem.getIn(["original", "x"]) * this.cropItem.get("width"));
+		let frameWidth = (this.cropItem.get('width') * this.cropItem.getIn(['imgDetails', 'widthRatio']))
+		let frameHeight = (this.cropItem.get('height') * this.cropItem.getIn(['imgDetails', 'heightRatio']))
 		
 		selectionX = (this.cropItem.get("x") + this.cropItem.getIn(["original", "x"]) * this.cropItem.get("width"));
 		selectionY = (this.cropItem.get("y") + this.cropItem.getIn(["original", "y"]) * this.cropItem.get("height"));
 	
-		selectionWidth = this.cropItem.getIn(["original", "width"]) * this.cropItem.getIn(["imgDetails", 'width'])
-		selectionHeight = this.cropItem.getIn(["original", "height"]) * this.cropItem.getIn(["imgDetails", 'height'])
+		selectionWidth = this.cropItem.getIn(["original", "width"]) * this.cropItem.get("width")
+		selectionHeight = this.cropItem.getIn(["original", "height"]) * this.cropItem.get("height")
 	
-		console.log({selectionX, selectionY, selectionWidth, selectionHeight}, this.cropItem.get("original").toJS());
-
-		cropWidth = this.cropItem.get("width") * this.cropItem.getIn(['imgDetails', 'widthRatio']);
-		cropHeight = this.cropItem.get("height") * this.cropItem.getIn(['imgDetails', 'heightRatio']);
-		cropX = (this.cropItem.get("x")) * this.cropItem.getIn(["original", "x"]) * this.cropItem.getIn(['imgDetails', 'xRatio']);
-		cropY = (this.cropItem.get("y")) * this.cropItem.getIn(["original", "y"]) * this.cropItem.getIn(['imgDetails', 'yRatio']);
-	
+		cropWidth = frameWidth;
+		cropHeight = frameHeight;
+		cropX = ((this.cropItem.get("x")  - selectionX) + frameX)//((this.cropItem.get("x")) * this.cropItem.getIn(['imgDetails', 'xRatio']));
+		cropY = ((this.cropItem.get("y")  - selectionY) + frameY) //((this.cropItem.get("y")) * this.cropItem.getIn(['imgDetails', 'yRatio']));
+		
 		// let frameWidth = aspectRatio.width
 		// let frameheight = aspectRatio.height
 	
@@ -149,7 +148,10 @@ class FrameImageComponent extends Component{
 		angle = this.cropItem.get("angle");
 		stateToUpdate.type = this.cropItem.get("type");
 	
-	
+		
+		stateToUpdate.frameX = frameX;
+		stateToUpdate.frameY = frameY;
+
 		stateToUpdate.cropSelectionBox = {
 			x: selectionX,
 			y: selectionY,
@@ -601,6 +603,7 @@ class FrameImageComponent extends Component{
 
 
 	handleCropClick(e) {
+		
 		let oX = this.state.cropSelectionBox.x + this.state.unCroppedBox.x;
 		let oY = this.state.cropSelectionBox.y + this.state.unCroppedBox.y;
 		let oWidth = this.state.unCroppedBox.width;
@@ -613,49 +616,40 @@ class FrameImageComponent extends Component{
 
 		let xDiff = ((oWidth - (cWidth + cX - oX))) - (oWidth - cWidth), yDiff = ((oHeight - (cHeight + cY - oY))) - (oHeight - cHeight);
 
-		if (this.props.isFraming) {
-			if (this.cropItem.get("flipPosition") === 1) {
-				xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
-			}
-			else if (this.cropItem.get("flipPosition") === 2) {
-				yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
-			}
-			else if (this.cropItem.get("flipPosition") === 3) {
-				xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
-				yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
-			}
-
-			let cropData = {
-                selectedItems: this.props.selectedItems, 
-                original: { 
-                    x: xDiff / cWidth, 
-                    y: yDiff / cHeight, 
-                    width: oWidth / cWidth, 
-                    height: oHeight / cHeight 
-                }, 
-                crop: { 
-                    x: cX, 
-                    y: cY, 
-                    width: cWidth, 
-                    height: cHeight 
-                }, 
-            };
-
-			this.props.cropImage(cropData, this.props.socket);
-
+		if (this.cropItem.get("flipPosition") === 1) {
+			xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
 		}
+		else if (this.cropItem.get("flipPosition") === 2) {
+			yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
+		}
+		else if (this.cropItem.get("flipPosition") === 3) {
+			xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
+			yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
+		}
+
+		let cropData = {
+			selectedItems: this.props.selectedItems, 
+			original: { 
+				x: (this.state.cropImage.x + this.state.frameX) / this.cropItem.get("width"), 
+				y: (this.state.cropImage.y + this.state.frameY) / this.cropItem.get("height"), 
+				width: this.state.cropImage.width / this.cropItem.get("width"), 
+				height: this.state.cropImage.height / this.cropItem.get("height")
+			}, 
+			crop: { 
+				x: cX, 
+				y: cY, 
+				width: cWidth, 
+				height: cHeight 
+			}, 
+		};
+
+		this.props.cropImage(cropData, this.props.socket);
 	}
 
 	cancelCrop(e) {
-		if (this.isFraming)
+		// if (this.isFraming)
 			this.props.toggleCrop();
 
-		let nextBtn = document.querySelector('.next_step');
-		if (nextBtn) {
-			this.props.nextBtnClicked(true);
-			nextBtn.classList.remove('disable');
-			nextBtn.click();
-		}
 	}
 
 	getAngle() {
