@@ -61,11 +61,6 @@ export default class CropComponent extends React.Component {
                 cropX = cropItem.get("x") - selectionX;
                 cropY = cropItem.get("y") - selectionY;
 
-                console.log({
-                    selectionX, selectionY, selectionWidth, selectionHeight, cropWidth, cropHeight, cropX, cropY
-                });
-                
-
             } else if (this.props.isFraming){
 
                 selectionX = cropItem.get("x") + cropItem.getIn(["original", "x"]) * cropItem.get("width");
@@ -77,10 +72,6 @@ export default class CropComponent extends React.Component {
                 cropHeight = cropItem.get("height") * cropItem.getIn(['imgDetails', 'heightRatio']);
                 cropX = (cropItem.get("x") - selectionX) * cropItem.getIn(['imgDetails', 'widthRatio']);
                 cropY = (cropItem.get("y") - selectionY) * cropItem.getIn(['imgDetails', 'heightRatio']);
-
-                console.log({
-                    selectionX, selectionY, selectionWidth, selectionHeight, cropWidth, cropHeight, cropX, cropY
-                });
 
             } else {
                 selectionX = cropItem.get("x");
@@ -138,7 +129,6 @@ export default class CropComponent extends React.Component {
 			}
 			else {
 				if (this.props.cropItem.getIn(['imgDetails', 'src']) && this.props.cropItem.getIn(['imgDetails', 'src']) !== "") {
-                    console.log(this.props.cropItem.getIn(['imgDetails', 'src']));
                     
                     // imgSrc = this.assetUrl + this.props.config[this.props.cropItem.get('imageType')][this.props.config[this.props.cropItem.get('imageType')][(this.props.cropItem.get('imageSubType')) ? 'workspace_' + this.props.cropItem.get('imageSubType') : 'workspace']] + this.props.cropItem.get('imageSource');
                     imgSrc = this.props.cropItem.getIn(['imgDetails', 'src'])

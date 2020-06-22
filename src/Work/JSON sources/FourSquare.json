@@ -1,0 +1,80 @@
+{
+	"FRAME_FourSquares": {
+		"type": "FRAME",
+		"width": 780,
+		"height": 780,
+		"defaultWidth": 780,
+		"defaultHeight": 780,
+		"x": 10,
+		"y": 10,
+		"angle": 0,
+		"d": [
+			{
+				"path": "M390 0h390v390H390z",
+				"fill": "black",
+				"stroke": "none"
+			},
+			{
+				"path": "M0 390h390v390H0z",
+				"fill": "black",
+				"stroke": "none"
+			}
+		],
+		"clipDetails": {
+			"clip_1": {
+				"clipWidth": 390,
+				"clipHeight": 390,
+				"clipX": 0,
+				"clipY": 0,
+				"clipData": "M0 0h390v390H0z",
+				"imgDetails": {
+					"id": "default",
+					"width": 612,
+					"height": 408,
+					"type": "STOCKIMG",
+					"src": "",
+					"filter": "",
+					"flipPosition": 0,
+					"original": {
+						"x": 0,
+						"y": 0,
+						"width": 1,
+						"height": 1
+					},
+					"defaultImageDetails": {
+						"src": "https://www.reallusion.com/ContentStore/CTA/Pack/G3-Animation-Suite-Weather-Maker/images/sunny.jpg",
+						"width": 1920,
+						"height": 1080
+					}
+				}
+			},
+			"clip_2": {
+				"clipWidth": 390,
+				"clipHeight": 390,
+				"clipX": 390,
+				"clipY": 390,
+				"clipData": "M390 390h390v390H390z",
+				"imgDetails": {
+					"id": "default",
+					"width": 612,
+					"height": 408,
+					"type": "STOCKIMG",
+					"src": "",
+					"filter": "",
+					"flipPosition": 0,
+					"original": {
+						"x": 0,
+						"y": 0,
+						"width": 1,
+						"height": 1
+					},
+					"defaultImageDetails": {
+						"src": "https://www.reallusion.com/ContentStore/CTA/Pack/G3-Animation-Suite-Weather-Maker/images/sunny.jpg",
+						"width": 1920,
+						"height": 1080
+					}
+				}
+			}
+		}
+	}
+}

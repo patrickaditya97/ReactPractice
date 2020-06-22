@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {calculateAspectRatio} from "../Helpers/FramesHelper"
+import {SVG} from './FramesComponent'
 
 class FrameImageComponent extends Component{
     
@@ -68,51 +69,28 @@ class FrameImageComponent extends Component{
 			cropImageY;
 	
 	
-		let aspectRatio = calculateAspectRatio(this.cropItem)
-	
-		let frameX = (this.cropItem.get('width') * this.cropItem.getIn(['imgDetails', 'xRatio']))
-		let frameY = (this.cropItem.get('height') * this.cropItem.getIn(['imgDetails', 'yRatio']))
-		let frameWidth = (this.cropItem.get('width') * this.cropItem.getIn(['imgDetails', 'widthRatio']))
-		let frameHeight = (this.cropItem.get('height') * this.cropItem.getIn(['imgDetails', 'heightRatio']))
+		let aspectRatio = calculateAspectRatio(this.cropItem, null, this.props.selectedClip)
+
+		let frameX = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'clipX']) * (this.cropItem.get("width")/this.cropItem.get("defaultWidth"))
+		let frameY = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'clipY']) * (this.cropItem.get("height")/this.cropItem.get("defaultHeight"))
+
+		let frameWidth = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'clipWidth']) * (this.cropItem.get("width")/this.cropItem.get("defaultWidth"))
+		let frameHeight = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'clipHeight']) * (this.cropItem.get("height")/this.cropItem.get("defaultHeight"))
 		
-		selectionX = (this.cropItem.get("x") + this.cropItem.getIn(["original", "x"]) * this.cropItem.get("width"));
-		selectionY = (this.cropItem.get("y") + this.cropItem.getIn(["original", "y"]) * this.cropItem.get("height"));
+		selectionX = (this.cropItem.get("x") + this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "original", "x"]) * this.cropItem.get("width"));
+		selectionY = (this.cropItem.get("y") + this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "original", "y"]) * this.cropItem.get("height"));
 	
-		selectionWidth = this.cropItem.getIn(["original", "width"]) * this.cropItem.get("width")
-		selectionHeight = this.cropItem.getIn(["original", "height"]) * this.cropItem.get("height")
-	
-		cropWidth = frameWidth;
+		selectionWidth  = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "original", "width"]) * this.cropItem.get("width")
+		selectionHeight = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "original", "height"]) * this.cropItem.get("height")
+		
+		cropWidth  = frameWidth;
 		cropHeight = frameHeight;
-		cropX = ((this.cropItem.get("x")  - selectionX) + frameX)//((this.cropItem.get("x")) * this.cropItem.getIn(['imgDetails', 'xRatio']));
-		cropY = ((this.cropItem.get("y")  - selectionY) + frameY) //((this.cropItem.get("y")) * this.cropItem.getIn(['imgDetails', 'yRatio']));
+		cropX	= ((this.cropItem.get("x")  - selectionX) + frameX)
+		cropY	= ((this.cropItem.get("y")  - selectionY) + frameY)
 		
-		// let frameWidth = aspectRatio.width
-		// let frameheight = aspectRatio.height
-	
-		// let frameX = aspectRatio.X
-		// let frameY = aspectRatio.Y
-	
-		// selectionX 		= (this.cropItem.get("x") + this.cropItem.getIn(["original", "x"]) * this.cropItem.get("width")) + frameX;
-		// selectionY 		= (this.cropItem.get("y") + this.cropItem.getIn(["original", "y"]) * this.cropItem.get("height") )+ frameY;
-	
-		// selectionWidth 	= frameWidth
-		// selectionHeight = frameheight
-	
-		// cropWidth 	= this.cropItem.getIn(['frameDetails', 'clipWidth']);
-		// cropHeight 	= this.cropItem.getIn(['frameDetails', 'clipHeight']);
-		// cropX 		= (this.cropItem.get("x")) * this.cropItem.getIn(["original", "x"]) * this.cropItem.getIn(['imgDetails', 'xRatio']);
-		// cropY 		= (this.cropItem.get("y")) * this.cropItem.getIn(["original", "x"]) * this.cropItem.getIn(['imgDetails', 'yRatio']);		
-	
-	
-	
-	
-	
-	
-	
-	
-	
 		let dX = 0,
 			dY = 0;
+
 		// if (this.cropItem.get("flipPosition") === 1) {
 		//     dX = (cropX - (selectionWidth - (cropX + cropWidth)));
 		// } else if (this.cropItem.get("flipPosition") === 2) {
@@ -142,8 +120,8 @@ class FrameImageComponent extends Component{
 			unCroppedX = dX;
 			unCroppedY = dY;
 		}
-	
-		imgSrc = this.cropItem.getIn(["imgDetails", "src"]);
+		
+		imgSrc = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "src"]);
 	
 		angle = this.cropItem.get("angle");
 		stateToUpdate.type = this.cropItem.get("type");
@@ -604,31 +582,33 @@ class FrameImageComponent extends Component{
 
 	handleCropClick(e) {
 		
-		let oX = this.state.cropSelectionBox.x + this.state.unCroppedBox.x;
-		let oY = this.state.cropSelectionBox.y + this.state.unCroppedBox.y;
-		let oWidth = this.state.unCroppedBox.width;
-		let oHeight = this.state.unCroppedBox.height;
+		// let oX = this.state.cropSelectionBox.x + this.state.unCroppedBox.x;
+		// let oY = this.state.cropSelectionBox.y + this.state.unCroppedBox.y;
+		// let oWidth = this.state.unCroppedBox.width;
+		// let oHeight = this.state.unCroppedBox.height;
 
 		let cX = (this.state.cropSelectionBox.x + this.state.cropBox.x);
 		let cY = (this.state.cropSelectionBox.y + this.state.cropBox.y);
 		let cWidth = this.state.cropBox.width;
 		let cHeight = this.state.cropBox.height;		
 
-		let xDiff = ((oWidth - (cWidth + cX - oX))) - (oWidth - cWidth), yDiff = ((oHeight - (cHeight + cY - oY))) - (oHeight - cHeight);
+		// let xDiff = ((oWidth - (cWidth + cX - oX))) - (oWidth - cWidth), 
+		// 	yDiff = ((oHeight - (cHeight + cY - oY))) - (oHeight - cHeight);
 
-		if (this.cropItem.get("flipPosition") === 1) {
-			xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
-		}
-		else if (this.cropItem.get("flipPosition") === 2) {
-			yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
-		}
-		else if (this.cropItem.get("flipPosition") === 3) {
-			xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
-			yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
-		}
+		// if (this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "flipPosition"]) === 1) {
+		// 	xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
+		// }
+		// else if (this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "flipPosition"]) === 2) {
+		// 	yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
+		// }
+		// else if (this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "flipPosition"]) === 3) {
+		// 	xDiff = 0 - ((oWidth - (cWidth + cX - oX)));
+		// 	yDiff = 0 - ((oHeight - (cHeight + cY - oY)));
+		// }
 
 		let cropData = {
 			selectedItems: this.props.selectedItems, 
+			clip: this.props.selectedClip,
 			original: { 
 				x: (this.state.cropImage.x + this.state.frameX) / this.cropItem.get("width"), 
 				y: (this.state.cropImage.y + this.state.frameY) / this.cropItem.get("height"), 
@@ -642,14 +622,12 @@ class FrameImageComponent extends Component{
 				height: cHeight 
 			}, 
 		};
-
-		this.props.cropImage(cropData, this.props.socket);
+		
+		this.props.cropImage(cropData);
 	}
 
 	cancelCrop(e) {
-		// if (this.isFraming)
-			this.props.toggleCrop();
-
+		this.props.toggleCrop();
 	}
 
 	getAngle() {
@@ -704,21 +682,21 @@ class FrameImageComponent extends Component{
 		let flip = this.getFlipPosition();
 
         let selectionStyles = {
-            transform: "translate(" + parseFloat(this.state.cropSelectionBox.x * this.props.zoomFactor).toFixed(2) + "px, " + parseFloat(this.state.cropSelectionBox.y * this.props.zoomFactor).toFixed(2) + "px) rotateZ(" + this.state.cropSelectionBox.angle + "deg)",
-            width: parseFloat(this.state.cropSelectionBox.width * this.props.zoomFactor).toFixed(2) + "px",
-            height: parseFloat(this.state.cropSelectionBox.height * this.props.zoomFactor).toFixed(2) + "px"
+            transform: `translate(${parseFloat(this.state.cropSelectionBox.x * this.props.zoomFactor).toFixed(2)}px, ${parseFloat(this.state.cropSelectionBox.y * this.props.zoomFactor).toFixed(2)}px) rotateZ(${this.state.cropSelectionBox.angle}deg)`,
+            width: `${parseFloat(this.state.cropSelectionBox.width * this.props.zoomFactor).toFixed(2)}px`,
+            height: `${parseFloat(this.state.cropSelectionBox.height * this.props.zoomFactor).toFixed(2)}px`
         };
 
         let cropStyles = {
-            transform: "translate(" + parseFloat(this.state.cropBox.x * this.props.zoomFactor).toFixed(2) + "px, " + parseFloat(this.state.cropBox.y * this.props.zoomFactor).toFixed(2) + "px)",
-            width: parseFloat(this.state.cropBox.width * this.props.zoomFactor).toFixed(2) + "px",
-            height: parseFloat(this.state.cropBox.height * this.props.zoomFactor).toFixed(2) + "px"
+            transform: `translate(${parseFloat(this.state.cropBox.x * this.props.zoomFactor).toFixed(2)}px, ${parseFloat(this.state.cropBox.y * this.props.zoomFactor).toFixed(2)}px)`,
+            width: `${parseFloat(this.state.cropBox.width * this.props.zoomFactor).toFixed(2)}px`,
+            height: `${parseFloat(this.state.cropBox.height * this.props.zoomFactor).toFixed(2)}px`
         };
 
         let unCroppedStyle = {
-            transform: "translate(" + parseFloat(this.state.unCroppedBox.x * this.props.zoomFactor).toFixed(2) + "px, " + parseFloat(this.state.unCroppedBox.y * this.props.zoomFactor).toFixed(2) + "px)",
-            width:  parseFloat(this.state.unCroppedBox.width * this.props.zoomFactor).toFixed(2) + "px",
-            height: parseFloat(this.state.unCroppedBox.height * this.props.zoomFactor).toFixed(2) + "px"
+            transform: `translate(${parseFloat(this.state.unCroppedBox.x * this.props.zoomFactor).toFixed(2)}px, ${parseFloat(this.state.unCroppedBox.y * this.props.zoomFactor).toFixed(2)}px)`,
+            width:  `${parseFloat(this.state.unCroppedBox.width * this.props.zoomFactor).toFixed(2)}px`,
+            height: `${parseFloat(this.state.unCroppedBox.height * this.props.zoomFactor).toFixed(2)}px`
         };
 
         let unCroppedImageStyle = {};
@@ -733,20 +711,40 @@ class FrameImageComponent extends Component{
 
         let filterValue = {};
 
-        unCroppedImageStyle.transform = "rotate(" + this.getAngle() + "deg)" + flip;
+        unCroppedImageStyle.transform = `rotate(${this.getAngle()}deg) ${flip}`;
 
         let cropImgElem, unCropImgElem;
 
-        let filterId = this.cropItem.get("filter")
+        let filterId = this.cropItem.getIn(['clipDetails', this.props.selectedClip, 'imgDetails', "filter"])
 
         let selectedId = this.props.selectedItems.get(0)
 		
-        cropImgElem = (
-            <div className="crop-imgHolder tintCls" style={{ ...filterValue, overflow: "hidden", }}>
-                <div id={"crop-vignette-" + this.props.selectedScene} className="vignette"></div>
-                <img alt="cropImageElem" ref={(instance) => this.cropImageElem = instance} src={this.state.image} style={{ ...cropImageStyle, filter: `url(#filter_${selectedId}_${filterId})` }} />
-            </div>
-        )
+        // cropImgElem = (
+        //     <div className="crop-imgHolder tintCls" style={{ ...filterValue, overflow: "hidden", }}>
+        //         <div id={"crop-vignette-" + this.props.selectedScene} className="vignette"></div>
+        //         <img alt="cropImageElem" ref={(instance) => this.cropImageElem = instance} src={this.state.image} style={{ ...cropImageStyle, filter: `url(#filter_${selectedId}_${filterId})` }} />
+        //     </div>
+		// )
+
+		const clip = this.props.selectedObjects.getIn([this.props.selectedItems.get(0), 'clipDetails', this.props.selectedClip, 'clipData'])
+		
+		cropImgElem = (
+			<div style={{position: 'absolute', overflow: 'hidden', width: '100%', height: '100%'}}>
+				<SVG style={{position: 'absolute'}}>
+					<defs>
+						<clipPath id={`${this.props.selectedClip}_1_1`}>
+							<path d={clip} transform="scale(1)"></path>
+						</clipPath>
+					</defs>
+				</SVG>
+				<div style={{clipPath: `url(#${this.props.selectedClip}_1_1)`}}>
+					<div ref={(instance) => this.cropImageElem = instance} style={cropImageStyle}>
+						<div id={"crop-vignette-" + this.props.selectedScene} className="vignette"></div>
+						<img alt="cropImageElem" src={this.state.image} style={{ display: 'block', position: 'absolute', width: '100%', height: '100%', filter: `url(#filter_${selectedId}_${filterId})`}}/>
+					</div>
+				</div>
+			</div>
+		)
 
         unCropImgElem = (
             <div className="crop-imgHolder tintCls" style={{ ...filterValue, overflow: "hidden" }}>
@@ -776,7 +774,7 @@ class FrameImageComponent extends Component{
         return (
             <React.Fragment>
                 <div className="crop-workspace" style={{ position: "absolute", left: workspaceX.toFixed(2) + "px", top: (workspaceY.toFixed(2)) + "px", width: workspaceWidth.toFixed(2) + "px", height: workspaceHeight.toFixed(2) + "px", zIndex: 5 }}>
-                    
+
 					<div className="cropSelectionBox" style={selectionStyles} data-html2canvas-ignore="true">
                         <div className="cropBox" ref={(instance) => this.cropBoxElement = instance} style={cropStyles} onMouseDown={this.initiateMove.bind(this)} onMouseEnter={(e) => this.setCursor(e, "move")} onMouseLeave={(e) => this.resetCursor(e)}>
                             {cropImgElem}

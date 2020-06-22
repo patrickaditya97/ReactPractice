@@ -1,0 +1,96 @@
+{
+	"FRAME_Stacked": {
+		"type": "FRAME",
+		"width": 374,
+		"height": 433,
+		"defaultWidth": 374,
+		"defaultHeight": 433,
+		"x": 10,
+		"y": 10,
+		"angle": 0,
+		"d": [],
+		"clipDetails": {
+			"clip_1": {
+				"clipWidth": 374,
+				"clipHeight": 191,
+				"clipX": 0,
+				"clipY": 0,
+				"clipData": "M0 0h374v150H0z",
+				"imgDetails": {
+					"id": "default",
+					"width": 612,
+					"height": 408,
+					"type": "STOCKIMG",
+					"src": "",
+					"filter": "",
+					"flipPosition": 0,
+					"original": {
+						"x": 0,
+						"y": 0,
+						"width": 1,
+						"height": 1
+					},
+					"defaultImageDetails": {
+						"src": "https://www.reallusion.com/ContentStore/CTA/Pack/G3-Animation-Suite-Weather-Maker/images/sunny.jpg",
+						"width": 1920,
+						"height": 1080
+					}
+				}
+			},
+			"clip_2": {
+				"clipWidth": 374,
+				"clipHeight": 117,
+				"clipX": 0,
+				"clipY": 180,
+				"clipData": "M0 146h374v191H0z",
+				"imgDetails": {
+					"id": "default",
+					"width": 612,
+					"height": 408,
+					"type": "STOCKIMG",
+					"src": "",
+					"filter": "",
+					"flipPosition": 0,
+					"original": {
+						"x": 0,
+						"y": 0,
+						"width": 1,
+						"height": 1
+					},
+					"defaultImageDetails": {
+						"src": "https://www.reallusion.com/ContentStore/CTA/Pack/G3-Animation-Suite-Weather-Maker/images/sunny.jpg",
+						"width": 1920,
+						"height": 1080
+					}
+				}
+			},
+			"clip_3": {
+				"clipWidth": 374,
+				"clipHeight": 117,
+				"clipX": 0,
+				"clipY": 287,
+				"clipData": "M373.9 433H0v-97.5h206.3l-1-20h168.6z",
+				"imgDetails": {
+					"id": "default",
+					"width": 612,
+					"height": 408,
+					"type": "STOCKIMG",
+					"src": "",
+					"filter": "",
+					"flipPosition": 0,
+					"original": {
+						"x": 0,
+						"y": 0,
+						"width": 1,
+						"height": 1
+					},
+					"defaultImageDetails": {
+						"src": "https://www.reallusion.com/ContentStore/CTA/Pack/G3-Animation-Suite-Weather-Maker/images/sunny.jpg",
+						"width": 1920,
+						"height": 1080
+					}
+				}
+			}
+		}
+	}
+}

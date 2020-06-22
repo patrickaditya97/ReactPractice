@@ -23,7 +23,8 @@ const mapStateToProps = (state) => ({
     isCropping      : state.get('isCropping'),
     isFraming       : state.get('isFraming'),
     isBgCropping    : state.get('isBgCropping'),  
-
+    isItemDragging  : state.get('isItemDragging'),
+    selectedClip    : state.get('selectedClip'),
 })
 
 

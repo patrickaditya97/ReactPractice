@@ -1,0 +1,42 @@
+{
+	"FRAME_LetterZ": {
+		"type": "FRAME",
+		"width": 179,
+		"height": 264,
+		"defaultWidth": 179,
+		"defaultHeight": 264,
+		"x": 155,
+		"y": 0,
+		"angle": 0,
+		"d": [],
+		"clipDetails": {
+			"clip_1": {
+				"clipWidth": 179,
+				"clipHeight": 264,
+				"clipX": 0,
+				"clipY": 0,
+				"clipData": "M176.8 28.5V0H7.3v58.2h85.6L0 236v28.2h179.1v-58H83.7z",
+				"imgDetails": {
+					"id": "default",
+					"type": "STOCKIMG",
+					"src": "",
+					"width": 612,
+					"height": 408,
+					"flipPosition": 0,
+					"filter": "",
+					"original": {
+						"x": -0.1944444444444444,
+						"y": 0,
+						"width": 0.8888888888888888,
+						"height": 0.5
+					},
+					"defaultImageDetails": {
+						"src": "https://www.reallusion.com/ContentStore/CTA/Pack/G3-Animation-Suite-Weather-Maker/images/sunny.jpg",
+						"width": 1920,
+						"height": 1080
+					}
+				}
+			}
+		}
+	}
+}

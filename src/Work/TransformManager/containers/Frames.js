@@ -5,9 +5,10 @@ import {cropImage} from '../redux/actions/action'
 const mapStateToProps = (state) => ({
     workspaceItems  : state.getIn(['workspaceItems']),
     workspaceBounds : state.get('workspaceBounds'),
-    selectedItems   : state.getIn(['selectedItems']),
+    selectedItems   : state.get('selectedItems'),
     isFraming       : state.get('isFraming'),
     zoomFactor      : state.get('zoomFactor'),
+    library         : state.get("library"),
 })
 
 const mapDispatchToProps = (dispatch) => ({

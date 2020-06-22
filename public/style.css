@@ -4,6 +4,9 @@ TRANSFORM MANAGER START
 ---------------------------------------
 */
 
+.disableEvents{
+    pointer-events: none;
+}
 
 .selectionBox, .cropBox, .cropSelectionBox{position: absolute;}
 
